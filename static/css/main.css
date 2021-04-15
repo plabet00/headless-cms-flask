@@ -62,6 +62,29 @@
     background-color: #1251a2;
     border-color: #1251a2;
 }
+
+.form_field{
+    display: flex;
+    background-color: #d2e9ff;
+    margin: 5%;
+    border-radius: 10px;
+}
+
+.form_field_text{
+    width: 100%;
+    text-align: left;
+    left: 3%;
+    padding: 5%;
+}
+
+.form_field_button{
+    padding: 3%;
+}
+
+.form_field_button:hover{
+    cursor: pointer;
+}
+
 #fields{
     display: flex;
     flex-direction: column;

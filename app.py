@@ -4,6 +4,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import json
 from base64 import b64encode
+import secrets
 
 UPLOAD_FOLDER = '/path/to/the/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -15,12 +16,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 class Model(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     content = db.Column(db.String(240), unique=True, nullable=False)
 
     def __repr__(self):
         return '<Model %r>' % self.name
+
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    image_name = db.Column(db.String(80), unique=False, nullable=False)
+    data = db.Column(db.LargeBinary, unique=False, nullable=False)
 
 db.create_all()
 
@@ -74,7 +80,6 @@ def createinstance():
 @app.route("/createinstance/accepted", methods=["POST", "GET"])
 def createinstanceaccepted():
     model_class = {}
-    print(request.form.getlist("Profile"))
     field_names = list(request.form.keys())[1:]
     model_class[request.form["model_name"]] = type(request.form["model_name"], (db.Model,), 
     {
@@ -89,17 +94,21 @@ def createinstanceaccepted():
                 elif request.form.getlist(column)[1] == "Number":
                     setattr(model_class[request.form["model_name"]], column, db.Column(db.Integer, unique=False, nullable=False))
             else:
-                setattr(model_class[request.form["model_name"]], column, db.Column(db.LargeBinary, unique=False, nullable=False))
+                setattr(model_class[request.form["model_name"]], column, db.Column(db.String(80), unique=False, nullable=False))
     
     db.create_all()
 
     entry = model_class[request.form["model_name"]]()
 
     for column in field_names:
+        random_token = secrets.token_hex(16)
         if len(request.form.getlist(column)) > 1:
             setattr(entry, column, request.form[column])
         else:
-            setattr(entry, column, request.files[column].read())
+            image_entry = Image(image_name = column + random_token, data = request.files[column].read())
+            db.session.add(image_entry)
+            db.session.commit()
+            setattr(entry, column, "/image/" + column + random_token)
 
     db.session.add(entry)
     db.session.commit()
@@ -153,7 +162,11 @@ def model(model):
 
     return return_dict
 
-    
+@app.route("/image/<image_name>", methods=["POST", "GET"])
+def get_image(image_name):
+    image = Image.query.filter_by(image_name = image_name).first()
+    base_64_image= b64encode(image.data).decode("ascii")
+    return render_template("image.html", image = base_64_image)
 
 if __name__ == "__main__":
     app.run(debug=True)

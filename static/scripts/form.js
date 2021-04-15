@@ -59,16 +59,29 @@ function SubmitForm(formType) {
   if ($("#form1").serializeArray()[0].value !== "") {
     state.push({ name: $("#form1").serializeArray()[0].value, type: formType });
     let addedForm = $(
-      "<input value = " +
+      "<input id = '" +
+        $("#form1").serializeArray()[0].value +
+        "' value = " +
         $("#form1").serializeArray()[0].value +
         " name = " +
-        formType + counter +
+        formType +
+        counter +
         " type = 'hidden'>" +
-        "<br>"
+        "<div class = 'form_field' id = '" +
+        $("#form1").serializeArray()[0].value +
+        "'><div class = 'form_field_text'>" +
+        $("#form1").serializeArray()[0].value +
+        "</div><div class = 'form_field_button' onclick = 'DeleteFormField(" +
+        $("#form1").serializeArray()[0].value +
+        ")'>&#10006;</div></div>"
     );
     counter += 1;
     ClosePopup();
-    addedForm.insertBefore("#button_style")
+    addedForm.insertBefore("#button_style");
   } else {
   }
+}
+
+function DeleteFormField(field){
+  $(field).remove();
 }
