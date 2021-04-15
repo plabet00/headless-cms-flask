@@ -1,0 +1,16 @@
+{% extends "createinstance_base.html" %} {% block head %} {% endblock %} {%
+block body %}
+<div class="body">
+  <div class="middle">
+    <h1>All items</h1>
+  </div>
+  <div class="right">
+    <h1>Choose model:</h1>
+    <form class="model_container">
+      {% for model in models %}
+      <input type = "submit" name = "name" value = "{{model.name}}">
+      {% endfor %}
+    </form>
+  </div>
+</div>
+{% endblock %}

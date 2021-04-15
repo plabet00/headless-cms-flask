@@ -1,0 +1,81 @@
+.body{
+    display:flex;
+    flex-direction: row;
+    position:relative;
+}
+
+.middle{
+    position: absolute;
+    right:50%;
+}
+
+.left_side{
+    position: absolute;
+    padding: 5%;
+    right:0;
+}
+
+.model_container{
+    background-color: #d2e9ff;
+    width:200%;
+    border-radius: 5px;
+    padding: 10%;
+}
+
+.model_card{
+    cursor: pointer;
+    padding: 10%;
+    border-radius: 5px;
+}
+
+.model_card:hover{
+    background-color: #bcdeff;
+}
+
+.button_style{
+    font-family: sans-serif;
+    background-color: dodgerblue;
+    color: white;
+    border-style: solid;
+    border-color: dodgerblue;
+    border-radius: 5px;
+    padding:5px;
+    width: 200px;
+    margin: 5px;
+    outline: none;
+    cursor: pointer;
+    font-size: x-large;
+    text-align: center;
+}
+.button_style:hover{
+    background-color: #1251a2;
+    border-color: #1251a2;
+}
+
+.popup_style{
+    position: fixed;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: gray;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 301;
+    background-color: white;
+}
+.dimmer{
+    position: fixed;
+    z-index: 300;
+    background-color: rgba(23, 23, 23, 0.3);
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+}
+.dimmer_hidden{
+    display: none;
+}
+.popup_style_hidden{
+    display: none;
+}

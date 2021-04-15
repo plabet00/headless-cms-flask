@@ -1,0 +1,23 @@
+{% extends "createinstance_form_base.html" %} {% block head %} {% endblock %} {%
+block body %}
+<div class="body">
+    <h1>Fill out fields</h1>
+    <form action = "/createinstance/accepted" enctype="multipart/form-data" method = "POST">
+    <input type = "text" name = "model_name" value = "{{model_name}}" method = "POST">
+    {% for x in range(names|length) %}
+        <h2>{{names[x]}}</h2>
+        {% if types[x][:-1] == "Text" %}
+            <input type = "text" name = "{{names[x]}}">
+            <input type = "hidden" name = "{{names[x]}}" value = "{{types[x][:-1]}}">
+        {% elif types[x][:-1] == "Number" %}
+            <input type = "number" name = "{{names[x]}}">
+            <input type = "hidden" name = "{{names[x]}}" value = "{{types[x][:-1]}}">
+        {% elif types[x][:-1] == "Image" %}
+            <input type = "file" name = "{{names[x]}}">
+            <input type = "hidden" name = "{{names[x]}}" value = "{{types[x][:-1]}}">
+        {% endif %}
+    {%endfor%}
+    <input type = "submit" value = "Submit">
+</form>
+</div>
+{% endblock %}

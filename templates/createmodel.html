@@ -1,0 +1,18 @@
+{% extends "createmodel_base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<div class="body">
+    <div class = "middle">
+        <h1>Models</h1>
+        <div class = "model_container">
+        {% for model in models %}
+            <div class = "model_card">{{model.name}}</div>
+        {% endfor %}
+        </div>
+    </div>
+    <div class = "left_side" onclick="PopupMenu()"><button class = "button_style">New model</button></div>
+</div>
+{% endblock %}

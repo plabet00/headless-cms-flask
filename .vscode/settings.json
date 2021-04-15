@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "yourVenv/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.pylintArgs": [
+    "--load-plugins",
+    "pylint_flask_sqlalchemy, pylint_flask",
+    "--init-hook",
+    "import sys; sys.path.insert(0, '/home/plabet00/flask/yourVenv')"
+    ]
+}
