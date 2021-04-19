@@ -5,11 +5,13 @@ from werkzeug.utils import secure_filename
 import json
 from base64 import b64encode
 import secrets
+from flask_cors import CORS
 
 UPLOAD_FOLDER = '/path/to/the/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -123,7 +125,7 @@ def models():
     models = {"models":[]}
     for x in Model.query.all():
         models["models"].append(x.name)
-    return models
+    return json.dumps(models)
 
 @app.route("/models/<model>", methods=["POST", "GET"])
 def model(model):
